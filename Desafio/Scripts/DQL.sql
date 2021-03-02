@@ -1,0 +1,8 @@
+USE SENAI_HROADS_MANHA;
+
+SELECT * FROM Classe;
+
+SELECT Nome
+FROM Classe;
+
+SELECT * FROM Habilidade;
