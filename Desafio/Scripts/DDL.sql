@@ -24,6 +24,11 @@ CREATE TABLE TipoHabilidade(
 CREATE TABLE Habilidade(
 	IdHabilidade		INT	PRIMARY KEY	IDENTITY,
 	IdTipoHabilidade	INT FOREIGN KEY REFERENCES TipoHabilidade(IdTipoHabilidade),
-	IdClasse			INT FOREIGN KEY REFERENCES Classe(IdClasse),
 	Nome				VARCHAR(200) NOT NULL,
+);
+
+CREATE TABLE ClasseHabilidade(
+	IdClasseHabilidade  INT	PRIMARY KEY	IDENTITY,
+	IdClasse		    INT FOREIGN KEY REFERENCES Classe(IdClasse),
+	IdHabilidade		INT FOREIGN KEY REFERENCES Habilidade(IdHabilidade),
 );
