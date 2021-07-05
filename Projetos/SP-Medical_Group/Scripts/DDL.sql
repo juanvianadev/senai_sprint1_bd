@@ -14,7 +14,7 @@ GO
 CREATE TABLE Usuario
 (
 	IdUsuario			INT PRIMARY KEY IDENTITY,
-	IdTipoUsuario		INT FOREIGN KEY REFERENCES TiposUsuarios (IdTipoUsuario) NOT NULL,
+	IdTipoUsuario		INT FOREIGN KEY REFERENCES TiposUsuario (IdTipoUsuario) NOT NULL,
 	Email				VARCHAR(150) NOT NULL,
 	Senha				VARCHAR(150) NOT NULL
 );
@@ -23,7 +23,7 @@ GO
 CREATE TABLE Paciente
 (
 	IdPaciente			INT PRIMARY KEY IDENTITY,
-	IdUsuario			INT FOREIGN KEY REFERENCES Usuarios (IdUsuario) NOT NULL,
+	IdUsuario			INT FOREIGN KEY REFERENCES Usuario (IdUsuario) NOT NULL,
 	Nome				VARCHAR(250) NOT NULL,
 	DataNascimento		DATE NOT NULL,
 	Telefone			VARCHAR(15) NOT NULL,
@@ -56,9 +56,9 @@ GO
 CREATE TABLE Medico
 (
 	IdMedico			INT PRIMARY KEY IDENTITY,
-	IdUsuario			INT FOREIGN KEY REFERENCES Usuarios (IdUsuario) NOT NULL,
-	IdClinica			INT FOREIGN KEY REFERENCES Clinicas (IdClinica) NOT NULL,
-	IdEspecialidade		INT FOREIGN KEY REFERENCES Especialidades (IdEspecialidade) NOT NULL,
+	IdUsuario			INT FOREIGN KEY REFERENCES Usuario (IdUsuario) NOT NULL,
+	IdClinica			INT FOREIGN KEY REFERENCES Clinica (IdClinica) NOT NULL,
+	IdEspecialidade		INT FOREIGN KEY REFERENCES Especialidade (IdEspecialidade) NOT NULL,
 	Nome				VARCHAR(250) NOT NULL,
 	CRM					CHAR(5) NOT NULL,
 	Estado				CHAR(2) NOT NULL
@@ -75,33 +75,10 @@ GO
 CREATE TABLE Consulta
 (
 	IdConsulta			INT PRIMARY KEY IDENTITY,
-	IdPaciente			INT FOREIGN KEY REFERENCES Pacientes (IdPaciente) NOT NULL,
-	IdMedico			INT FOREIGN KEY REFERENCES Medicos (IdMedico) NOT NULL,
-	IdSituacao			INT FOREIGN KEY REFERENCES Situacoes (IdSituacao) DEFAULT(1),
+	IdPaciente			INT FOREIGN KEY REFERENCES Paciente (IdPaciente) NOT NULL,
+	IdMedico			INT FOREIGN KEY REFERENCES Medico (IdMedico) NOT NULL,
+	IdSituacao			INT FOREIGN KEY REFERENCES Situacao (IdSituacao) DEFAULT(1),
 	DataAgendamento		DATETIME NOT NULL,
 	Descricao			VARCHAR(350)
 );
 GO
-
-CREATE FUNCTION QuantidadeDeMedicos(@Especialidade VARCHAR(300))
-RETURNS INT
-AS
-BEGIN
-	DECLARE @Number		INT
-
-	SELECT 
-		@Number = COUNT(IdMedico) 
-	FROM Medicos M
-	INNER JOIN Especialidades E
-	ON M.IdEspecialidade = E.IdEspecialidade
-	WHERE E.Titulo = @Especialidade
-
-	RETURN @Number
-END;
-
-CREATE PROCEDURE BuscaIdade (@Email	VARCHAR(150))
-AS
-SELECT P.Nome, DATEDIFF(year, DataNascimento, GETDATE()) AS [Idade] FROM Pacientes P
-INNER JOIN Usuarios U
-ON P.IdUsuario = U.IdUsuario
-WHERE U.Email = @Email;

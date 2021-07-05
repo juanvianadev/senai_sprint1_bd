@@ -1,7 +1,7 @@
 USE SP_Medical_Group;
 GO
 
-INSERT INTO TiposUsuario (Titulo)
+INSERT INTO TiposUsuario (Tipo)
 VALUES ('Administrador'),
 	   ('Paciente'),
 	   ('Médico');
@@ -35,7 +35,7 @@ INSERT INTO Clinica (Nome, CNPJ, RazaoSocial, HorarioAbertura, HorarioFechamento
 VALUES ('Clínica Possarle', '86400902000130', 'SP Medical Group', '06:00', '22:00', 'Av. Barão Limeira, 532, São Paulo, SP');
 GO
 
-INSERT INTO Especialidade (Titulo)
+INSERT INTO Especialidade (Especialidade)
 VALUES ('Acunpuntura'),
 	   ('Anestesiologia'),
 	   ('Angiologia'),
@@ -61,7 +61,7 @@ VALUES (9, 1, 2, 'Ricardo Lemos', '54356', 'SP'),
 	   (11, 1, 16, 'Helena Strada', '65463', 'SP');
 GO
 
-INSERT INTO Situacao (Titulo)
+INSERT INTO Situacao (Situacao)
 VALUES ('Agendada'),
 	   ('Realizada'),
 	   ('Cancelada');
